@@ -4,7 +4,7 @@ import jaconv
 import time
 import os
 import json
-import openai
+from openai import OpenAI
 from prompt import get_kadai_list_creation_prompt
 
 
@@ -103,7 +103,7 @@ class VsTypingDojo:
         api_key = os.getenv("OPENAI_API_KEY")
         if api_key:
             try:
-                self.openai_client = openai.OpenAI(api_key=api_key)
+                self.openai_client = OpenAI(api_key=api_key)
             except Exception as e:
                 print(f"OpenAI setup failed: {e}")
                 self.openai_client = None
@@ -142,11 +142,12 @@ class VsTypingDojo:
             # Convert to the format expected by the game
             words = []
             for item in sentences:
-                sentence = item.get("sentence", "")
-                katakana = item.get("katakana", "")
+                sentence = item.get("sentence", "").replace("、", "")
+                katakana = item.get("katakana", "").replace("、", "")
                 romaji = katakana_to_romaji(katakana)
 
-                if sentence and romaji:
+                # Exclude sentences containing "ー" (long vowel mark)
+                if sentence and romaji and "ー" not in sentence:
                     words.append({"japanese": sentence, "romaji": romaji})
 
             return words
