@@ -2,7 +2,7 @@
 
 プレーヤー 2 人で同じ課題文を同時に入力する対戦型タイピングゲームです。
 
-<img src="game_screen.png" alt="game_screen" width="50%" />
+<img src="game_screen.png" alt="game_screen" width="80%" />
 
 勝敗は、入力ごとに加算されるスコアの合計で決まります。各課題文ごとにノーミスボーナスもあるため、勝利には速さだけでなく正確さも重要です。
 
