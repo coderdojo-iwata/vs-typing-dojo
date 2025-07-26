@@ -32,7 +32,7 @@ class VsTypingDojo:
     def __init__(self, root):
         self.root = root
         self.root.title("VS Typing Dojo")
-        self.root.geometry("1000x780")
+        self.root.geometry("1000x730")
         self.root.configure(bg="#1a1a2e")
 
         # ゲーム変数（日本語のことわざ）
@@ -189,20 +189,6 @@ class VsTypingDojo:
         self.root.after(100, do_refresh)
 
     def setup_ui(self):
-        # ゲームタイトル (最上部)
-        title_frame = tk.Frame(self.root, bg="#1a1a2e", height=40)
-        title_frame.pack(fill="x", pady=5)
-        title_frame.pack_propagate(False)
-
-        title_label = tk.Label(
-            title_frame,
-            text="VS Typing Dojo",
-            font=("Arial", 18, "bold"),
-            bg="#1a1a2e",
-            fg="white",
-        )
-        title_label.pack(expand=True)
-
         # タイマー表示
         timer_frame = tk.Frame(self.root, bg="#1a1a2e", height=60)
         timer_frame.pack(fill="x", pady=5)
@@ -211,7 +197,7 @@ class VsTypingDojo:
         self.timer_label = tk.Label(
             timer_frame,
             text="",
-            font=("Arial", 16, "bold"),
+            font=("Arial", 13, "bold"),
             bg="#1a1a2e",
             fg="#FFC107",
             justify="center",
@@ -227,7 +213,7 @@ class VsTypingDojo:
         tk.Label(
             p1_main_frame,
             text="PLAYER 1",
-            font=("Arial", 14, "bold"),
+            font=("Arial", 12, "bold"),
             bg="#1a1a2e",
             fg="#4CAF50",
         ).pack(pady=2)
@@ -271,7 +257,7 @@ class VsTypingDojo:
         tk.Label(
             p2_main_frame,
             text="PLAYER 2",
-            font=("Arial", 14, "bold"),
+            font=("Arial", 12, "bold"),
             bg="#1a1a2e",
             fg="#2196F3",
         ).pack(pady=2)
@@ -389,7 +375,7 @@ class VsTypingDojo:
             self.user_type_radios.append(rb)
 
         # ボタンエリア (最下部)
-        button_frame = tk.Frame(self.root, bg="#1a1a2e", height=50)
+        button_frame = tk.Frame(self.root, bg="#1a1a2e", height=30)
         button_frame.pack(fill="x")
         button_frame.pack_propagate(False)
 
@@ -574,6 +560,28 @@ class VsTypingDojo:
                 bg="#1a1a2e", fg="#FFC107", relief="flat", bd=0, padx=0, pady=0
             )
 
+            # 単語データもリセット
+            self.current_word_data = None
+            self.current_romaji = ""
+
+            # Player 1 リセット
+            self.p1_score = 0
+            self.p1_words_typed = 0
+            self.p1_current_position = 0
+            self.p1_correct_chars = 0
+            self.p1_total_chars = 0
+            self.p1_perfect_typing = True
+            self.p1_perfect_count = 0
+
+            # Player 2 リセット
+            self.p2_score = 0
+            self.p2_words_typed = 0
+            self.p2_current_position = 0
+            self.p2_correct_chars = 0
+            self.p2_total_chars = 0
+            self.p2_perfect_typing = True
+            self.p2_perfect_count = 0
+
             # 統計表示をクリア
             self.p1_stats_label.config(text="")
             self.p2_stats_label.config(text="")
@@ -586,6 +594,8 @@ class VsTypingDojo:
 
             self.start_button.config(state="disabled")
             self.countdown_value = 3
+            self.hide_word()
+            self.update_displays()
             self.start_countdown()
 
     def reset_game(self):
